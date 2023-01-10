@@ -13,4 +13,7 @@ describe('Traveler', () => {
     expect(Traveler).to.be.a('function')
   })
 
+  it('Should be an instance of Traveler', () => {
+    expect(traveler).to.be.an.instanceOf(Traveler)
+  })
 })
