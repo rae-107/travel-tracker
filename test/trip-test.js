@@ -23,4 +23,8 @@ describe('Trip', () => {
   it('Should have a property that contains all trips', () => {
     expect(trip.data).to.deep.equal(tripData)
   })
+
+  it('Should find all trips by a users id', () => {
+    expect(trip.getTripsById(44)).to.deep.equal(tripData.slice(0, 2))
+  })
 })
