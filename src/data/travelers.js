@@ -1,4 +1,3 @@
-
 const travelers = [
     { id: 1, name: "Ham Leadbeater", travelerType: "relaxer" },
     { id: 2, name: "Rachael Vaughten", travelerType: "thrill-seeker" },
@@ -11,3 +10,5 @@ const travelers = [
     { id: 9, name: "Natalee Deegin", travelerType: "relaxer" },
     { id: 10, name: "Rickie Jodlowski", travelerType: "relaxer" }
   ]
+
+  export default travelers
