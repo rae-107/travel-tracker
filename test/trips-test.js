@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import tripsData from '../src/data/trips'
 import destinationData from '../src/data/destinations'
 import Traveler from '../src/Traveler'
-import Trips from '../src/Trip'
+import Trips from '../src/Trips'
 
 describe('Trip', () => {
   let trips
@@ -87,4 +87,6 @@ describe('Trip', () => {
   it('Should return No trips found with that status if no trips found with status', () => {
     expect(trips.getTripsByStatus()).to.equal('No trips found with that status')
   })
+
+  
 })

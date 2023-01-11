@@ -11,7 +11,6 @@ class Trips {
   getDestinationByDestinationId(destinationId) {
     const destination = this.destinationData.find(destination => destination.id === destinationId)
     return !destination ? 'Can\'t find a destination by that id' : destination
-    
   }
 
   getTripsByStatus(status) {
