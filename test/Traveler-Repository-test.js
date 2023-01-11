@@ -20,6 +20,7 @@ describe("TravelerRepo", () => {
 
   it('Should have a property that contains all travelers', () => {
     expect(travelerRepo.data).to.deep.equal(travelerData)
+    expect(travelerRepo.data.length).to.equal(10)
   })
 
   it('Should find a user by id', () => {
