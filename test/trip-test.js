@@ -37,6 +37,18 @@ describe('Trip', () => {
     expect(trips.getTripsById(51)).to.equal('Can\'t find that user')
   })
 
+  it('Should find destination by id', () => {
+    expect(trips.getDestinationByDestinationId(2)).to.deep.equal({
+      id: 2,
+      destination: "Stockholm, Sweden",
+      estimatedLodgingCostPerDay: 100,
+      estimatedFlightCostPerPerson: 780,
+      image:
+        "https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+      alt: "city with boats on the water during the day time",
+    })
+  })
+
   it('Should find all trips with provided status', () => {
     expect(trips.getTripsByStatus('pending')).to.deep.equal([ {
       id: 3,
