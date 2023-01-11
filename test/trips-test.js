@@ -30,7 +30,7 @@ describe('Trip', () => {
   })
 
   it('Should find all trips by a users id', () => {
-    expect(trips.getTripsById(44)).to.deep.equal(tripsData.slice(0, 2))
+    expect(trips.getTripsById(3)).to.deep.equal(tripsData.slice(0, 4))
   })
 
   it('Should return Can\'t find that user if id doesn\'t exist', () => {
@@ -57,7 +57,7 @@ describe('Trip', () => {
     expect(trips.getTripsByStatus('pending')).to.deep.equal([ {
       id: 3,
       userID: 3,
-      destinationID: 22,
+      destinationID: 6,
       travelers: 4,
       date: "2022/05/22",
       duration: 17,
@@ -88,5 +88,7 @@ describe('Trip', () => {
     expect(trips.getTripsByStatus()).to.equal('No trips found with that status')
   })
 
-  
+  it('Should should be able to calulate how much a traveler has spent on trips this year', () => {
+    expect(trips.calculateTripsThisYear(3, '2022/12/04')).to.equal(13420)  
+  })
 })
