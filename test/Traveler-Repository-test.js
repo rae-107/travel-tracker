@@ -17,4 +17,10 @@ describe("TravelerRepo", () => {
   it('Should be an instance of Traveler', () => {
     expect(travelerRepo).to.be.an.instanceOf(TravelerRepository)
   })
+
+  it('Should have a property that contains all travelers', () => {
+    expect(travelerRepo.data).to.deep.equal(travelerData)
+  })
+
+  
 });
