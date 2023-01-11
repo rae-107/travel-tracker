@@ -15,4 +15,8 @@ describe('Trip', () => {
   it("Should be a function", () => {
     expect(Trip).to.be.a("function");
   });
+
+  it('Should be an instance of Trip', () => {
+    expect(trip).to.be.an.instanceOf(Trip)
+  })
 })
