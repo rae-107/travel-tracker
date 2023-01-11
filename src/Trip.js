@@ -3,7 +3,8 @@ class Trip {
     this.data = tripData
   }
   getTripsById(userID) {
-    return this.data.filter(trip => trip.userID === userID)
+    const trips = this.data.filter(trip => trip.userID === userID)
+    return trips.length === 0 ? 'Can\'t find that user' : trips
   }
 }
 
