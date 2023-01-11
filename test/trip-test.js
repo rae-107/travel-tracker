@@ -18,5 +18,9 @@ describe('Trip', () => {
 
   it('Should be an instance of Trip', () => {
     expect(trip).to.be.an.instanceOf(Trip)
+  })  
+
+  it('Should have a property that contains all trips', () => {
+    expect(trip.data).to.deep.equal(tripData)
   })
 })
