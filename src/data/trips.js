@@ -2,7 +2,7 @@ const trips = [
   {
     id: 1,
     userID: 44,
-    destinationID: 49,
+    destinationID: 2,
     travelers: 1,
     date: "2022/09/16",
     duration: 8,
