@@ -12,5 +12,7 @@ describe('Trip', () => {
     traveler = new Traveler({ id: 1, name: "Ham Leadbeater", travelerType: "relaxer" })
   })
 
-  
+  it("Should be a function", () => {
+    expect(Trip).to.be.a("function");
+  });
 })
