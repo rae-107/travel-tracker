@@ -27,4 +27,8 @@ describe('Trip', () => {
   it('Should find all trips by a users id', () => {
     expect(trip.getTripsById(44)).to.deep.equal(tripData.slice(0, 2))
   })
+
+  it('Should return Can\'t find that user if id doesn\'t exist', () => {
+    expect(trip.getTripsById(51)).to.equal('Can\'t find that user')
+  })
 })
