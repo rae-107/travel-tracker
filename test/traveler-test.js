@@ -21,4 +21,8 @@ describe('Traveler', () => {
   it('Should have an id', () => {
     expect(traveler.id).to.equal(1)
   })
+
+  it('Should have a name', () => {
+    expect(traveler.name).to.equal('Ham Leadbeater')
+  })
 })
