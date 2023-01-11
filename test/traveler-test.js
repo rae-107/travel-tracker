@@ -32,4 +32,8 @@ describe('Traveler', () => {
   it('Should keep track of amount spent on trips plus 10% agent fee, should default to zero', () => {
     expect(traveler.amountSpent).to.equal(0)
   })
+
+  it('Should return travelers first name',() => {
+    expect(traveler.getFirstName()).to.equal('Ham')
+  })
 })
