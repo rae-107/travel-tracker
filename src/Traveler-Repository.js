@@ -9,8 +9,6 @@ class TravelerRepository {
     }
     return traveler
   }
-
-
 }
 
 export default TravelerRepository
