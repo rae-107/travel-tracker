@@ -49,6 +49,10 @@ describe('Trip', () => {
     })
   })
 
+  it('Should return message if can\'t find destination by id', () => {
+    expect(trips.getDestinationByDestinationId(11)).to.equal('Can\'t find a destination by that id')
+  })
+
   it('Should find all trips with provided status', () => {
     expect(trips.getTripsByStatus('pending')).to.deep.equal([ {
       id: 3,
