@@ -1,39 +1,44 @@
 import { expect } from 'chai'
-import tripData from '../src/data/trips'
+import tripsData from '../src/data/trips'
+import destinationData from '../src/data/destinations'
 import Traveler from '../src/Traveler'
-import Trip from '../src/Trip'
+import Trips from '../src/Trip'
 
 describe('Trip', () => {
-  let trip
+  let trips
   let traveler
 
   beforeEach(() => {
-    trip = new Trip(tripData)
+    trips = new Trips(tripsData, destinationData)
     traveler = new Traveler({ id: 1, name: "Ham Leadbeater", travelerType: "relaxer" })
   })
 
   it("Should be a function", () => {
-    expect(Trip).to.be.a("function");
+    expect(Trips).to.be.a("function");
   });
 
   it('Should be an instance of Trip', () => {
-    expect(trip).to.be.an.instanceOf(Trip)
+    expect(trips).to.be.an.instanceOf(Trips)
   })  
 
   it('Should have a property that contains all trips', () => {
-    expect(trip.data).to.deep.equal(tripData)
+    expect(trips.tripsData).to.deep.equal(tripsData)
+  })
+
+  it('Should contain a property that contains all destinations', () => {
+    expect(trips.destinationData).to.deep.equal(destinationData)
   })
 
   it('Should find all trips by a users id', () => {
-    expect(trip.getTripsById(44)).to.deep.equal(tripData.slice(0, 2))
+    expect(trips.getTripsById(44)).to.deep.equal(tripsData.slice(0, 2))
   })
 
   it('Should return Can\'t find that user if id doesn\'t exist', () => {
-    expect(trip.getTripsById(51)).to.equal('Can\'t find that user')
+    expect(trips.getTripsById(51)).to.equal('Can\'t find that user')
   })
 
   it('Should find all trips with provided status', () => {
-    expect(trip.getTripsByStatus('pending')).to.deep.equal([ {
+    expect(trips.getTripsByStatus('pending')).to.deep.equal([ {
       id: 3,
       userID: 3,
       destinationID: 22,
@@ -64,6 +69,6 @@ describe('Trip', () => {
   })
 
   it('Should return No trips found with that status if no trips found with status', () => {
-    expect(trip.getTripsByStatus()).to.equal('No trips found with that status')
+    expect(trips.getTripsByStatus()).to.equal('No trips found with that status')
   })
 })
