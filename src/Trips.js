@@ -18,7 +18,17 @@ class Trips {
     return tripsByStatus.length === 0 ? 'No trips found with that status' : tripsByStatus
   }
 
-
+  calculateTripsThisYear(userID, date) {
+    const tripsByYear = this.getTripsById(userID)
+    .filter(trip => trip.date.slice(0, 4) === date.slice(0, 4))
+    .reduce((total, trip) => {
+      const lodgingCost = this.getDestinationByDestinationId(trip.destinationID).estimatedLodgingCostPerDay * trip.duration
+      const flightCost = this.getDestinationByDestinationId(trip.destinationID).estimatedFlightCostPerPerson * trip.travelers
+      total += lodgingCost + flightCost
+      return total
+    }, 0)
+    return tripsByYear
+  }
 }
 
 export default Trips
