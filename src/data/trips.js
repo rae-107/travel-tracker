@@ -1,7 +1,7 @@
 const trips = [
   {
     id: 1,
-    userID: 44,
+    userID: 3,
     destinationID: 2,
     travelers: 1,
     date: "2022/09/16",
@@ -11,8 +11,8 @@ const trips = [
   },
   {
     id: 2,
-    userID: 44,
-    destinationID: 25,
+    userID: 3,
+    destinationID: 3,
     travelers: 5,
     date: "2022/10/04",
     duration: 18,
@@ -22,11 +22,21 @@ const trips = [
   {
     id: 3,
     userID: 3,
-    destinationID: 22,
+    destinationID: 6,
     travelers: 4,
     date: "2022/05/22",
     duration: 17,
     status: "pending",
+    suggestedActivities: [],
+  },
+  {
+    id: 10,
+    userID: 3,
+    destinationID: 50,
+    travelers: 6,
+    date: "2021/07/23",
+    duration: 17,
+    status: "approved",
     suggestedActivities: [],
   },
   {
@@ -87,16 +97,6 @@ const trips = [
     date: "2022/12/19",
     duration: 19,
     status: "pending",
-    suggestedActivities: [],
-  },
-  {
-    id: 10,
-    userID: 9,
-    destinationID: 50,
-    travelers: 6,
-    date: "2022/07/23",
-    duration: 17,
-    status: "approved",
     suggestedActivities: [],
   },
 ];
