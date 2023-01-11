@@ -22,5 +22,11 @@ describe("TravelerRepo", () => {
     expect(travelerRepo.data).to.deep.equal(travelerData)
   })
 
-  
+  it('Should find a user by id', () => {
+    expect(travelerRepo.getTravelerById(1)).to.deep.equal(travelerData[0])
+  })
+
+  it('Should return error message if user doesn\'t exist', () => {
+    expect(travelerRepo.getTravelerById(11)).to.equal('Can\'t find that user')
+  })
 });
