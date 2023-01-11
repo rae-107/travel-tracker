@@ -6,7 +6,8 @@ describe('Traveler', () => {
   let traveler
   
   beforeEach(() => {
-    traveler = new Traveler(travelerData)
+    traveler = new Traveler(travelerData[0])
+    // traveler2 = new Traveler(travelerData[1])
   })
 
   it('Should be a function', () => {
@@ -15,5 +16,9 @@ describe('Traveler', () => {
 
   it('Should be an instance of Traveler', () => {
     expect(traveler).to.be.an.instanceOf(Traveler)
+  })
+
+  it('Should have an id', () => {
+    expect(traveler.id).to.equal(1)
   })
 })
