@@ -7,7 +7,6 @@ describe('Traveler', () => {
   
   beforeEach(() => {
     traveler = new Traveler(travelerData[0])
-    // traveler2 = new Traveler(travelerData[1])
   })
 
   it('Should be a function', () => {
@@ -21,12 +20,16 @@ describe('Traveler', () => {
   it('Should have an id', () => {
     expect(traveler.id).to.equal(1)
   })
-
+  
   it('Should have a name', () => {
     expect(traveler.name).to.equal('Ham Leadbeater')
   })
 
   it('Should have a traveler type', () => {
     expect(traveler.travelerType).to.equal('relaxer')
+  })
+
+  it('Should keep track of amount spent on trips plus 10% agent fee, should default to zero', () => {
+    expect(traveler.amountSpent).to.equal(0)
   })
 })
