@@ -8,6 +8,7 @@ class Trip {
     this.date = tripObject.date
     this.duration = tripObject.duration
     this.status = tripObject.status
+    this.suggestedActivities = tripObject.suggestedActivities
   }
 }
 
