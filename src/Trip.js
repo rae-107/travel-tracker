@@ -1,6 +1,7 @@
 class Trip {
-  constructor() {
-
+  constructor(tripObject) {
+    console.log(tripObject)
+    this.id = tripObject.id
   }
 }
 
