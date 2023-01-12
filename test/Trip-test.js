@@ -36,4 +36,10 @@ describe('Trip', () => {
   it('Should have a property of date', () => {
     expect(trip.date).to.equal("2022/09/16")
   })
+
+  it('Should have a property of duration', () => {
+    expect(trip.duration).to.equal(8)
+  })
+
+  
 })
