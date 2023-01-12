@@ -44,4 +44,8 @@ describe('Trip', () => {
   it('Should have a status property', () => {
     expect(trip.status).to.equal('approved')
   })
+
+  it('Should have a suggestedActivities property that is an empty array', () => {
+    expect(trip.suggestedActivities).to.deep.equal([])
+  })
 })
