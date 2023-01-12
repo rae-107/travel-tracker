@@ -4,7 +4,7 @@ import destinationData from '../src/data/destinations'
 import Traveler from '../src/Traveler'
 import Trips from '../src/Trips'
 
-describe('Trip', () => {
+describe('Trips', () => {
   let trips
   let traveler
 
