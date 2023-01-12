@@ -6,7 +6,7 @@ describe('Trip', () => {
   let trip
 
   beforeEach(() => {
-    trip = new Trip(tripData.slice(0, 1))
+    trip = new Trip(tripData.slice(0, 1)[0])
   })
 
   it("Should be a function", () => {
@@ -16,4 +16,8 @@ describe('Trip', () => {
   it('Should be an instance of Trip', () => {
     expect(trip).to.be.an.instanceOf(Trip)
   }) 
+
+  it('Should have a property of id', () => {
+    expect(trip.id).to.equal(1)
+  })
 })
