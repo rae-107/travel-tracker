@@ -5,13 +5,15 @@ import Traveler from './Traveler'
 import TravelerRepo from './Traveler-Repository'
 import Trips from './Trips'
 import TravelerRepository from './Traveler-Repository';
+import * as dayjs from 'dayjs'
 
 // Global Variables
 let traveler
 let travelers
 let trips
 let destinations
-let currentDate = '2020/12/04'
+let currentDate = dayjs('2020/12/04').format('ddd, MMMM D, YYYY')
+console.log(currentDate)
 
 // Fetch
 const fetchData = (url) => {
