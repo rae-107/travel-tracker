@@ -29,4 +29,7 @@ describe('Trip', () => {
     expect(trip.destinationID).to.equal(2)
   })
 
+  it('Should a property of number of travelers', () => {
+    expect(trip.travelers).to.equal(1)
+  })
 })
