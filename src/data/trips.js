@@ -32,7 +32,7 @@ const trips = [
   {
     id: 10,
     userID: 3,
-    destinationID: 50,
+    destinationID: 9,
     travelers: 6,
     date: "2021/07/23",
     duration: 17,
