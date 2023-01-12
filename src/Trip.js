@@ -7,6 +7,7 @@ class Trip {
     this.travelers = tripObject.travelers
     this.date = tripObject.date
     this.duration = tripObject.duration
+    this.status = tripObject.status
   }
 }
 
