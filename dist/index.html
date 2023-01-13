@@ -21,17 +21,17 @@
     </nav>
     <main>
       <div class="input-box">
-        <form>
+        <form id="inputField">
           <section class="input-bar">
             <label for="calendar">Departure Date:</label>
-            <input type="date" class="inputs" id="calendar" />
+            <input type="date" class="inputs" id="calendarSelection" />
             <label for="duration">Number Of Nights:</label>
-            <input type="number" class="inputs" id="duration" min="0" max="365" />
+            <input type="number" class="inputs" id="durationSelection" min="0" max="365" />
             <label for="travelers">Number Of Travelers</label>
-            <input type="number" class="inputs" id="travelers" min="0" max="853" />
-
+            <input type="number" class="inputs" id="travelersSelection" min="0" max="853" />
+            <div class="price-estimate" id="priceEstimate"> Est Price: $0</div>
           </section>
-
+          
           <div class="swiper">
             <div class="swiper-wrapper">
             </div>
@@ -42,9 +42,6 @@
           </div>
 
         </form>
-      </div>
-      <div class="price-estimate">
-        <p></p>
       </div>
       <button class="book-trip-button" type="button" id="bookTripButton">
         Book Trip!
