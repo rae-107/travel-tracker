@@ -6,31 +6,28 @@ import TravelerRepo from "./Traveler-Repository";
 import Trips from "./Trips";
 import TravelerRepository from "./Traveler-Repository";
 import * as dayjs from "dayjs";
-// import Swiper, { Navigation, Pagination, Keyboard, Scrollbar, EffectCube } from 'swiper'
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-// import "swiper/css/effect-cube";
-// import "swiper/css/keyboard";
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import "swiper/css/scrollbar";
-// import "swiper/css";
 
 // Global Variables
 let traveler;
 let travelers;
 let trips;
-let destinations;
-let currentDate = dayjs("2020/12/04").format("YYYY/MM/DD");
-let displayedCurrentDate = dayjs("2020/12/04").format("ddd, MMMM D, YYYY");
+let currentDate = dayjs().format("YYYY/MM/DD");
+let displayedCurrentDate = dayjs().format("ddd, MMMM D, YYYY");
 let destID = 1
 
 // Fetch
-const fetchData = (url) => {
-  return fetch(url).then((res) => res.json());
-};
+function fetchData(url, obj) {
+  return fetch(url, obj).then((res) => {
+    if(!res.ok) {
+      throw new Error(`${res.status}: ${res.statusText}`)
+    }
+    return res.json();
+  });
+}
 
-const fetchAll = () => {
+function fetchAll() {
   Promise.all([
     fetchData("http://localhost:3001/api/v1/travelers/7"),
     fetchData("http://localhost:3001/api/v1/travelers"),
@@ -38,13 +35,14 @@ const fetchAll = () => {
     fetchData("http://localhost:3001/api/v1/destinations"),
   ]).then((data) => {
     traveler = new Traveler(data[0]);
-    travelers = new TravelerRepo(data[1].travelers);
+    travelers = new TravelerRepo(data[1].travelers); //GetTravelersByID???????
     trips = new Trips(data[2].trips, data[3].destinations);
 
     renderPage("approved", tripBox, 147, 220, "trips");
     renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
-  });
-};
+    initializeSlider();
+  }).catch(error => console.log(error))
+}
 fetchAll();
 
 // JQuerys
@@ -53,47 +51,106 @@ const tripBox = document.querySelector("#trips");
 const pendingTripBox = document.querySelector("#pendingTrips");
 const date = document.querySelector("#date");
 const welcomeText = document.querySelector("#welcome-text");
-const inputField = document.querySelector('#inputField')
+const inputField = document.querySelector("#inputField");
 const calendarSelection = document.querySelector("#calendarSelection");
 const nightSelection = document.querySelector("#durationSelection");
 const travelerSelection = document.querySelector("#travelersSelection");
-const priceEstimate = document.querySelector('#priceEstimate')
-const bookTripButton = document.querySelector('#bookTripButton')
+const priceEstimate = document.querySelector("#priceEstimate");
+const bookTripButton = document.querySelector("#bookTripButton");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 
-
 // Event Listeners
-bookTripButton.addEventListener('load', function(event) {
+bookTripButton.addEventListener("click", function (event) {
+  postTrip();
+});
 
-})
-
+inputField.addEventListener("change", function (event) {
+  event.preventDefault();
+  calculateSelectedTrip(event, destID);
+});
 
 // Functions
+const postTrip = () => {
+  if (!nightSelection.value && !travelerSelection.value) {
+    return;
+  }
+  return fetchData("http://localhost:3001/api/v1/trips", {
+    method: "POST",
+    body: JSON.stringify({
+      id: Date.now(),
+      userID: traveler.id,
+      destinationID: destID,
+      travelers: +travelerSelection.value,
+      date: dayjs(calendarSelection.value).format('YYYY/MM/DD'),
+      duration: +nightSelection.value,
+      status: "pending",
+      suggestedActivities: [],
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(response => {
+    fetchAll()
+    renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
+    console.log(response)
+  }).catch(error => {
+    console.log(error)
+  })
+};
+
+// {id: <number>, userID: <number>, destinationID: <number>, travelers: <number>, date: <string 'YYYY/MM/DD'>, duration: <number>, status: <string 'approved' or 'pending'>, suggestedActivities: <array of strings>}
+
 function calculateSelectedTrip(event, id) {
-  // if (!id) {
-  //   currentSelectedDestination = {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"}
-  //   console.log(currentSelectedDestination)
-  // } else {
-  //   currentSelectedDestination = trips.getDestinationByDestinationId(id)
-  // }
-  let currentSelectedDestination = trips.getDestinationByDestinationId(id)
-  let flightCost = currentSelectedDestination.estimatedFlightCostPerPerson * travelerSelection.value
-  let lodgingCost = currentSelectedDestination.estimatedLodgingCostPerDay * nightSelection.value
-  let agentFee = (flightCost + lodgingCost) * .1
-  priceEstimate.innerText = ` Est Price: $${flightCost + lodgingCost + agentFee}`
+  let currentSelectedDestination = trips.getDestinationByDestinationId(id);
+  let flightCost =
+    currentSelectedDestination.estimatedFlightCostPerPerson *
+    travelerSelection.value;
+  let lodgingCost =
+    currentSelectedDestination.estimatedLodgingCostPerDay *
+    nightSelection.value;
+  let agentFee = (flightCost + lodgingCost) * 0.1;
+  priceEstimate.innerText = ` Est Price: $${
+    flightCost + lodgingCost + agentFee
+  }`;
 }
 
+
 function renderPage(status, container, height, width, style) {
+  container.innerHTML = ''
   date.innerText = displayedCurrentDate;
   welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
   spentPerYear.innerText = `Total Spent This Year: $${trips.calculateTripsThisYear(
     traveler.id,
     currentDate
   )}`;
-  
+  container.innerHTML += trips
+    .getTripsById(traveler.id)
+    .reduce((string, userTrip) => {
+      if (userTrip.status === status) {
+        string += `
+    <div class=${style}>
+    <img alt=${
+      trips.getDestinationByDestinationId(userTrip.destinationID).alt
+    } src="${
+          trips.getDestinationByDestinationId(userTrip.destinationID).image
+        } class="trip-image" height="${height}" width="${width}">
+      <div>
+      <p id="destination"><strong>${
+        trips.getDestinationByDestinationId(userTrip.destinationID).destination
+      }</strong></p>
+      </div>
+      <p id="tripDate">${dayjs(userTrip.date).format("MMMM D, YYYY")}</p>
+      <p id="duration"><strong>Nights:</strong> ${userTrip.duration}</p>
+      <p id="travelers"><strong>Travelers:</strong> ${userTrip.travelers}</p>
+      <p id="status"><em> ...${userTrip.status}... </em></p>
+    </div>`;
+      }
+      return string;
+    }, "");
+}
 
+function initializeSlider() {
   trips.destinationData.forEach((destination) => {
-    // console.log(destination);
     swiperWrapper.innerHTML += `
     <div class="swiper-slide" id="${destination.id}"><img alt="${destination.alt}" src="${destination.image}" width="400" height="275">
     <div>
@@ -127,44 +184,8 @@ function renderPage(status, container, height, width, style) {
       lastSlideMessage: "This is the last slide",
     },
   });
-  // swiper.on("init", function (event) {
-  //   calculateSelectedTrip(event, 0);
-  //     inputField.addEventListener('change', function(event){
-  //       event.preventDefault()
-  //       calculateSelectedTrip(event, 0)
-  //     })
-  // });
   swiper.on("slideChange", function (event) {
+    destID = swiper.activeIndex + 1;
     calculateSelectedTrip(event, destID);
-      destID = swiper.activeIndex + 1
-      inputField.addEventListener('change', function(event){
-        event.preventDefault()
-        calculateSelectedTrip(event, destID)
-      })
   });
-
-  container.innerHTML += trips
-    .getTripsById(traveler.id)
-    .reduce((string, userTrip) => {
-      if (userTrip.status === status) {
-        string += `
-    <div class=${style}>
-    <img alt=${
-      trips.getDestinationByDestinationId(userTrip.destinationID).alt
-    } src="${
-          trips.getDestinationByDestinationId(userTrip.destinationID).image
-        } class="trip-image" height="${height}" width="${width}">
-      <div>
-      <p id="destination"><strong>${
-        trips.getDestinationByDestinationId(userTrip.destinationID).destination
-      }</strong></p>
-      </div>
-      <p id="tripDate">${dayjs(userTrip.date).format("MMMM D, YYYY")}</p>
-      <p id="duration"><strong>Nights:</strong> ${userTrip.duration}</p>
-      <p id="travelers"><strong>Travelers:</strong> ${userTrip.travelers}</p>
-      <p id="status"><em> ...${userTrip.status}... </em></p>
-    </div>`;
-      }
-      return string;
-    }, "");
 }
