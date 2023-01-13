@@ -92,6 +92,13 @@ button {
   border-radius: 30px;
   box-shadow: 2px 2px 4px 0px #000000;
   margin: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.price-estimate {
+  height: 25px;
+  width: 150px;
 }
 
 .inputs {
