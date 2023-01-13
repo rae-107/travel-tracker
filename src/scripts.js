@@ -6,23 +6,24 @@ import TravelerRepo from './Traveler-Repository'
 import Trips from './Trips'
 import TravelerRepository from './Traveler-Repository';
 import * as dayjs from 'dayjs'
+import Swiper from 'swiper'
+import 'swiper/css'
 
 // Global Variables
 let traveler
 let travelers
 let trips
 let destinations
-let currentDate = dayjs('2020/12/04').format('ddd, MMMM D, YYYY')
-console.log(currentDate)
+let currentDate = dayjs('2020/12/04').format('YYYY/MM/DD')
+let displayedCurrentDate = dayjs('2020/12/04').format('ddd, MMMM D, YYYY')
 
 // Fetch
 const fetchData = (url) => {
     return fetch(url).then(res => res.json())
 }
 
-
 const fetchAll = () => {
-  Promise.all([fetchData('http://localhost:3001/api/v1/travelers/2'), fetchData('http://localhost:3001/api/v1/travelers'), fetchData('http://localhost:3001/api/v1/trips'), fetchData('http://localhost:3001/api/v1/destinations')])
+  Promise.all([fetchData('http://localhost:3001/api/v1/travelers/7'), fetchData('http://localhost:3001/api/v1/travelers'), fetchData('http://localhost:3001/api/v1/trips'), fetchData('http://localhost:3001/api/v1/destinations')])
   .then(data => {
     traveler = new Traveler(data[0])
     travelers = new TravelerRepo(data[1].travelers)
@@ -32,11 +33,7 @@ const fetchAll = () => {
     renderPage('pending', pendingTripBox, 80, 150, 'pending-trips')
   })
 }
-
 fetchAll()
-
-
-
 
 // JQuerys
 const spentPerYear = document.querySelector('#spentPerYear')
@@ -45,24 +42,24 @@ const pendingTripBox = document.querySelector('#pendingTrips')
 const date = document.querySelector('#date')
 const welcomeText = document.querySelector('#welcome-text')
 
-
 // Event Listeners
 
 
 
 // Functions
-
 function renderPage(status, container, height, width, style) {
     welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`
-    date.innerText = currentDate
-    spentPerYear.innerText = `$${trips.calculateTripsThisYear(traveler.id, currentDate)}`
+    date.innerText = displayedCurrentDate
+    spentPerYear.innerText = `Total Spent This Year: $${trips.calculateTripsThisYear(traveler.id, currentDate)}`
     container.innerHTML += trips.getTripsById(traveler.id).reduce((string, userTrip) => {
     if (userTrip.status === status) {
     string += `
     <div class=${style}>
-    <img src="${trips.getDestinationByDestinationId(userTrip.destinationID).image} class="trip-image" height="${height}" width="${width}">
+    <img alt=${trips.getDestinationByDestinationId(userTrip.destinationID).alt} src="${trips.getDestinationByDestinationId(userTrip.destinationID).image} class="trip-image" height="${height}" width="${width}">
+      <div>
       <p id="destination"><strong>${trips.getDestinationByDestinationId(userTrip.destinationID).destination}</strong></p>
-      <p id="tripDate">${userTrip.date}</p>
+      </div>
+      <p id="tripDate">${dayjs(userTrip.date).format('MMMM D, YYYY')}</p>
       <p id="duration"><strong>Nights:</strong> ${userTrip.duration}</p>
       <p id="travelers"><strong>Travelers:</strong> ${userTrip.travelers}</p>
       <p id="status"><em> ...${userTrip.status}... </em></p>
@@ -70,45 +67,59 @@ function renderPage(status, container, height, width, style) {
   } 
   return string
   }, '')
+
+
+//   <div class="swiper">
+//   <!-- Additional required wrapper -->
+//   <div class="swiper-wrapper">
+//     <!-- Slides -->
+//     <div class="swiper-slide">Slide 1</div>
+//     <div class="swiper-slide">Slide 2</div>
+//     <div class="swiper-slide">Slide 3</div>
+//     ...
+//   </div>
+//   <!-- If we need pagination -->
+//   <div class="swiper-pagination"></div>
+
+//   <!-- If we need navigation buttons -->
+//   <div class="swiper-button-prev"></div>
+//   <div class="swiper-button-next"></div>
+
+//   <!-- If we need scrollbar -->
+//   <div class="swiper-scrollbar"></div>
+// </div>
+
+
+
+
+
+
 }
 
 
-// const testDom = () => {
-//   trip = new Trips(tripsData, destinationData)
+const swiper = new Swiper('.swiper', {
+  // speed: 400,
+  // spaceBetween: 100,
+  // Optional parameters
+  direction: 'horizontal',
+  loop: true,
+  slidesPerView: 4,
 
-//  
-  
-//   tripBox.innerHTML += trip.getTripsById(3).reduce((string, userTrip) => {
-//     console.log(userTrip)
-//     if (userTrip.status === 'approved') {
-//     string += `
-//     <div class="trips">
-//     <img src="${trip.getDestinationByDestinationId(userTrip.destinationID).image} class="trip-image" height="147">
-//       <p id="destination"><strong>${trip.getDestinationByDestinationId(userTrip.destinationID).destination}</strong></p>
-//       <p id="tripDate">${userTrip.date}</p>
-//       <p id="duration"><strong>Nights:</strong> ${userTrip.duration}</p>
-//       <p id="travelers"><strong>Travelers:</strong> ${userTrip.travelers}</p>
-//       <p id="status"> ...${userTrip.status}... </p>
-//     </div>`
-//   } else {
-//     pendingTripBox.innerHTML += 
-//     userTrip += `
-//     <div class="pending-trips">
-//     <img src="${trip.getDestinationByDestinationId(userTrip.destinationID).image} class="trip-image" height="100">
-//       <p id="destination"><strong>${trip.getDestinationByDestinationId(userTrip.destinationID).destination}</strong></p>
-//       <p id="tripDate">${userTrip.date}</p>
-//       <p id="duration"><strong>Nights:</strong> ${userTrip.duration}</p>
-//       <p id="travelers"><strong>Travelers:</strong> ${userTrip.travelers}</p>
-//       <p id="status"> ...${userTrip.status}... </p>
-//     </div>`
-//   }
-//   return string
-//   }, '')
-// }
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+  },
 
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
 
-// testDom()
+  // And if we need scrollbar
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
 
-
-
-
+// console.log(swiper)
