@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Activity Tracker</title>
   </head>
   <body>
@@ -14,28 +17,38 @@
       <div class="spent-per-year">
         <p id="spentPerYear"></p>
       </div>
-      <div class="pending-trips-container" id="pendingTrips">
-
-      </div>
+      <div class="pending-trips-container" id="pendingTrips"></div>
     </nav>
     <main>
       <div class="input-box">
-        <form class="input-bar"></form>
+        <form id="inputField">
+          <section class="input-bar">
+            <label for="calendar">Departure Date:</label>
+            <input type="date" class="inputs" id="calendarSelection" />
+            <label for="duration">Number Of Nights:</label>
+            <input type="number" class="inputs" id="durationSelection" min="0" max="365" />
+            <label for="travelers">Number Of Travelers</label>
+            <input type="number" class="inputs" id="travelersSelection" min="0" max="853" />
+            <div class="price-estimate" id="priceEstimate"> Est Price: $0</div>
+          </section>
+          
+          <div class="swiper">
+            <div class="swiper-wrapper">
+            </div>
+            <!-- <div class="swiper-pagination"></div> -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-scrollbar"></div>
+          </div>
+
+        </form>
       </div>
-      <div class="price-estimate">
-        <p></p>
-      </div>
-      <!-- <label for="bookTripButton"></label> -->
       <button class="book-trip-button" type="button" id="bookTripButton">
         Book Trip!
       </button>
-      <div class="trips-container" id="trips">
-        
-      </div>
+      <div class="trips-container" id="trips"></div>
     </main>
     <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
-
-    <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
     <script src="bundle.js"></script>
   </body>
 </html>
