@@ -23,6 +23,7 @@ let trips;
 let destinations;
 let currentDate = dayjs("2020/12/04").format("YYYY/MM/DD");
 let displayedCurrentDate = dayjs("2020/12/04").format("ddd, MMMM D, YYYY");
+let destID = 1
 
 // Fetch
 const fetchData = (url) => {
@@ -52,20 +53,95 @@ const tripBox = document.querySelector("#trips");
 const pendingTripBox = document.querySelector("#pendingTrips");
 const date = document.querySelector("#date");
 const welcomeText = document.querySelector("#welcome-text");
-let swiperWrapper = document.querySelector(".swiper-wrapper");
+const inputField = document.querySelector('#inputField')
+const calendarSelection = document.querySelector("#calendarSelection");
+const nightSelection = document.querySelector("#durationSelection");
+const travelerSelection = document.querySelector("#travelersSelection");
+const priceEstimate = document.querySelector('#priceEstimate')
+const bookTripButton = document.querySelector('#bookTripButton')
+const swiperWrapper = document.querySelector(".swiper-wrapper");
+
 
 // Event Listeners
+bookTripButton.addEventListener('load', function(event) {
+
+})
+
 
 // Functions
+function calculateSelectedTrip(event, id) {
+  // if (!id) {
+  //   currentSelectedDestination = {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"}
+  //   console.log(currentSelectedDestination)
+  // } else {
+  //   currentSelectedDestination = trips.getDestinationByDestinationId(id)
+  // }
+  let currentSelectedDestination = trips.getDestinationByDestinationId(id)
+  let flightCost = currentSelectedDestination.estimatedFlightCostPerPerson * travelerSelection.value
+  let lodgingCost = currentSelectedDestination.estimatedLodgingCostPerDay * nightSelection.value
+  let agentFee = (flightCost + lodgingCost) * .1
+  priceEstimate.innerText = ` Est Price: $${flightCost + lodgingCost + agentFee}`
+}
+
 function renderPage(status, container, height, width, style) {
-  welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
-
   date.innerText = displayedCurrentDate;
-
+  welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
   spentPerYear.innerText = `Total Spent This Year: $${trips.calculateTripsThisYear(
     traveler.id,
     currentDate
   )}`;
+  
+
+  trips.destinationData.forEach((destination) => {
+    // console.log(destination);
+    swiperWrapper.innerHTML += `
+    <div class="swiper-slide" id="${destination.id}"><img alt="${destination.alt}" src="${destination.image}" width="400" height="275">
+    <div>
+    <p>${destination.destination}</p>
+    <p>Lodging Per Night: $${destination.estimatedLodgingCostPerDay}</p>
+    <p>Flight Per Person: $${destination.estimatedFlightCostPerPerson}</p>
+    </div>
+    </div>
+    `;
+  });
+  const swiper = new Swiper(".swiper", {
+    centeredSlides: true,
+    effect: "cube",
+    cubeEffect: {
+      slideShadows: false,
+    },
+    direction: "horizontal",
+    rewind: true,
+    keyboard: {
+      enabled: true,
+      onlyInViewport: false,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    a11y: {
+      prevSlideMessage: "Previous slide",
+      nextSlideMessage: "Next slide",
+      enabled: true,
+      lastSlideMessage: "This is the last slide",
+    },
+  });
+  // swiper.on("init", function (event) {
+  //   calculateSelectedTrip(event, 0);
+  //     inputField.addEventListener('change', function(event){
+  //       event.preventDefault()
+  //       calculateSelectedTrip(event, 0)
+  //     })
+  // });
+  swiper.on("slideChange", function (event) {
+    calculateSelectedTrip(event, destID);
+      destID = swiper.activeIndex + 1
+      inputField.addEventListener('change', function(event){
+        event.preventDefault()
+        calculateSelectedTrip(event, destID)
+      })
+  });
 
   container.innerHTML += trips
     .getTripsById(traveler.id)
@@ -91,56 +167,4 @@ function renderPage(status, container, height, width, style) {
       }
       return string;
     }, "");
-     trips.destinationData.forEach(destination => {
-      console.log(destination)
-      swiperWrapper.innerHTML += `
-      <div class="swiper-slide" id="${destination.id}"><img alt="${destination.alt}" src="${destination.image}" width="400" height="275">
-      <div>
-      <p>${destination.destination}</p>
-      <p>Lodging Per Night: $${destination.estimatedLodgingCostPerDay}</p>
-      <p>Flight Per Person: $${destination.estimatedFlightCostPerPerson}</p>
-      </div>
-      </div>
-      `
-    });
-
-    const swiper = new Swiper(".swiper", {
-      // modules: [Navigation, Pagination, Keyboard, Scrollbar, EffectCube],
-      centeredSlides: true,
-      effect: "cube",
-      cubeEffect: {
-          slideShadows: false,
-        },
-      // grabCursor: true,
-      direction: "horizontal",
-      loop: true,
-      slidesPerView: 1,
-      keyboard: {
-        enabled: true,
-        onlyInViewport: false,
-        enabled: true,
-      },
-      // pagination: {
-      //   el: ".swiper-pagination",
-      // },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      scrollbar: {
-        el: ".swiper-scrollbar",
-        draggable: true,
-      },
-      a11y: {
-          prevSlideMessage: "Previous slide",
-          nextSlideMessage: "Next slide",
-          enabled: true,
-          lastSlideMessage: "This is the last slide",
-        },
-    });
-    
-
-  console.log(trips.destinationData.map((destination) => destination));
-  console.log(trips.destinationData[0]);
 }
-
