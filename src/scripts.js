@@ -29,7 +29,7 @@ function fetchData(url, obj) {
 
 function fetchAll() {
   Promise.all([
-    fetchData("http://localhost:3001/api/v1/travelers/9"),
+    fetchData("http://localhost:3001/api/v1/travelers/8"),
     fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
@@ -96,13 +96,12 @@ const postTrip = () => {
   }).then(response => {
     fetchAll()
     renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
+    clearInputs()
     console.log(response)
   }).catch(error => {
     console.log(error)
   })
 };
-
-// {id: <number>, userID: <number>, destinationID: <number>, travelers: <number>, date: <string 'YYYY/MM/DD'>, duration: <number>, status: <string 'approved' or 'pending'>, suggestedActivities: <array of strings>}
 
 function calculateSelectedTrip(event, id) {
   let currentSelectedDestination = trips.getDestinationByDestinationId(id);
@@ -196,4 +195,10 @@ function initializeSlider() {
     destID = swiper.activeIndex + 1;
     calculateSelectedTrip(event, destID);
   });
+}
+
+function clearInputs() {
+  calendarSelection.value = dayjs(currentDate).format('YYYY-MM-DD')
+  nightSelection.value = 0
+  travelerSelection.value = 0
 }
