@@ -37,10 +37,9 @@ class Trips {
         total += lodgingCost + flightCost;
         return total;
       }, 0);
-    const tenPercent = tripsByYear * 0.1
-    return +(tripsByYear + tenPercent).toFixed(2)
+    const tenPercent = tripsByYear * 0.1;
+    return Number(tripsByYear + tenPercent).toFixed(2);
   }
 }
-
 
 export default Trips;
