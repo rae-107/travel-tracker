@@ -112,8 +112,8 @@ function calculateSelectedTrip(event, id) {
     currentSelectedDestination.estimatedLodgingCostPerDay *
     nightSelection.value;
   let agentFee = (flightCost + lodgingCost) * 0.1;
-  priceEstimate.innerText = ` Est Price: $${
-    flightCost + lodgingCost + agentFee
+  priceEstimate.innerText = ` Est Price: $${Number(
+    flightCost + lodgingCost + agentFee).toFixed(2)
   }`;
 }
 
