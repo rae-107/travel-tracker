@@ -132,11 +132,11 @@ button {
   flex-direction: row;
 }
 
-.swiper-button-prev,
+/* .swiper-button-prev,
 .swiper-button-next  {
   color: white;
   background-color: #1d3244;
-}
+} */
 
 button {
   padding: 5px 20px;
