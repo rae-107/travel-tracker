@@ -29,6 +29,7 @@ const travelerSelection = document.querySelector("#travelersSelection");
 const priceEstimate = document.querySelector("#priceEstimate");
 const bookTripButton = document.querySelector("#bookTripButton");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
+const labels = document.querySelectorAll('label')
 const errorBox = document.querySelector('#errorBox')
 
 // Fetch
@@ -46,7 +47,7 @@ function fetchData(url, obj) {
 
 function fetchAll() {
   Promise.all([
-    fetchData("http://localhost:3001/api/v1/travelers/6"),
+    fetchData("http://localhost:3001/api/v1/travelers/2"),
     fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
@@ -112,14 +113,12 @@ const postTrip = () => {
       setTimeout(addHidden, 3000)
     })
     .catch((error) => {
-      console.log('post error', error)
       errorBox.classList.remove('hidden')
       errorBox.innerText = `${error}`
       setTimeout(addHidden, 5000)
     });
 };
 
-console.log(calendarSelection.value);
 calendarSelection.setAttribute("min", dayjs(currentDate).format("YYYY-MM-DD"));
 calendarSelection.setAttribute(
   "value",
