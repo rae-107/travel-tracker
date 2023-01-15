@@ -4,7 +4,6 @@ import "./images/turing-logo.png";
 import Traveler from "./Traveler";
 import TravelerRepo from "./Traveler-Repository";
 import Trips from "./Trips";
-import TravelerRepository from "./Traveler-Repository";
 import * as dayjs from "dayjs";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
@@ -36,7 +35,10 @@ const errorBox = document.querySelector('#errorBox')
 function fetchData(url, obj) {
   return fetch(url, obj).then((res) => {
     if (!res.ok) {
-      throw new Error(`${res.status}: ${res.statusText}`);
+      if (res.status === 422) {
+        throw new Error(`There's a problem processing trip request. Please try again later`);
+      }
+      throw new Error(`Server down. Please try again later `);
     }
     return res.json();
   });
@@ -51,19 +53,20 @@ function fetchAll() {
   ])
     .then((data) => {
       traveler = new Traveler(data[0]);
-      travelers = new TravelerRepository(data[1].travelers); //GetTravelersByID???????
+      travelers = new TravelerRepo(data[1].travelers); //GetTravelersByID???????
       trips = new Trips(data[2].trips, data[3].destinations);
-
       renderPage("approved", tripBox, 147, 220, "trips");
       renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
       initializeSlider();
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      errorBox.classList.remove('hidden')
+      errorBox.innerText = `${error}`
+    });
 }
 fetchAll();
 
 const postTrip = () => {
-  // console.log(nightSelection.value, travelerSelection.value)
   if (!nightSelection.value || !travelerSelection.value) {
     errorBox.classList.remove('hidden')
     errorBox.innerText = `Please fill out all necessary fields`
@@ -109,7 +112,10 @@ const postTrip = () => {
       setTimeout(addHidden, 3000)
     })
     .catch((error) => {
-      console.log(error);
+      console.log('post error', error)
+      errorBox.classList.remove('hidden')
+      errorBox.innerText = `${error}`
+      setTimeout(addHidden, 5000)
     });
 };
 
