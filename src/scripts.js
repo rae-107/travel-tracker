@@ -83,7 +83,6 @@ const postTrip = () => {
     errorBox.innerText = `It looks like that trip is already booked`
     return;
   }
-  errorBox.classList.add('hidden')
   return fetchData("http://localhost:3001/api/v1/trips", {
     method: "POST",
     body: JSON.stringify({
@@ -105,7 +104,9 @@ const postTrip = () => {
       renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
       inputField.reset();
       destID = 1;
-      console.log(response);
+      errorBox.classList.remove('hidden')
+      errorBox.innerText = `${response.message}`
+      setTimeout(addHidden, 3000)
     })
     .catch((error) => {
       console.log(error);
@@ -223,8 +224,6 @@ function initializeSlider() {
   });
 }
 
-function clearInputs() {
-  calendarSelection.value = dayjs(currentDate).format("YYYY-MM-DD");
-  nightSelection.value = 0;
-  travelerSelection.value = 0;
+function addHidden() {
+  errorBox.classList.add('hidden')
 }
