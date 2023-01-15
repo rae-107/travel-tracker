@@ -13,9 +13,12 @@
   <body>
     <nav>
       <h1 class="welcome-text" id="welcome-text"></h1>
-      <h4 class="date" id="date"></h4>
+      <h2 class="date" id="date"></h4>
       <div class="spent-per-year">
         <p id="spentPerYear"></p>
+      </div>
+      <div>
+        <h2>Pending Trips</h2>
       </div>
       <div class="pending-trips-container" id="pendingTrips"></div>
     </nav>
@@ -23,13 +26,13 @@
       <div class="input-box">
         <form id="inputField">
           <section class="input-bar">
-            <label for="calendar">Departure Date:</label>
+            <label for="calendarSelection">Departure Date</label>
             <input type="date" class="inputs" id="calendarSelection" />
-            <label for="duration">Number Of Nights:</label>
+            <label for="durationSelection">Number Of Nights</label>
             <input type="number" class="inputs" id="durationSelection" placeholder="0" min="0" max="365" />
-            <label for="travelers">Number Of Travelers</label>
+            <label for="travelersSelection">Number Of Travelers</label>
             <input type="number" class="inputs" id="travelersSelection" placeholder="0" min="0" max="853" />
-            <div class="price-estimate" id="priceEstimate"> Est Price: $0</div>
+            <div class="price-estimate" id="priceEstimate"> Est Price: $0.00</div>
           </section>
           
           <div class="swiper">
@@ -40,12 +43,12 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-scrollbar"></div>
           </div>
+          <button class="book-trip-button" type="button" id="bookTripButton">
+            Book Trip!
+          </button>
 
         </form>
       </div>
-      <button class="book-trip-button" type="button" id="bookTripButton">
-        Book Trip!
-      </button>
       <div class="trips-container" id="trips"></div>
     </main>
     <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->

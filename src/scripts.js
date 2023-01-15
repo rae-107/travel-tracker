@@ -29,7 +29,7 @@ function fetchData(url, obj) {
 
 function fetchAll() {
   Promise.all([
-    fetchData("http://localhost:3001/api/v1/travelers/7"),
+    fetchData("http://localhost:3001/api/v1/travelers/8"),
     fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
@@ -59,6 +59,10 @@ const priceEstimate = document.querySelector("#priceEstimate");
 const bookTripButton = document.querySelector("#bookTripButton");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 
+console.log(calendarSelection.value)
+calendarSelection.setAttribute('min', dayjs(currentDate).format('YYYY-MM-DD'))
+calendarSelection.setAttribute('value', dayjs(currentDate).format('YYYY-MM-DD'))
+
 // Event Listeners
 bookTripButton.addEventListener("click", function (event) {
   postTrip();
@@ -71,7 +75,7 @@ inputField.addEventListener("change", function (event) {
 
 // Functions
 const postTrip = () => {
-  if (!nightSelection.value && !travelerSelection.value) {
+  if (!nightSelection.value || !travelerSelection.value) {
     return;
   }
   return fetchData("http://localhost:3001/api/v1/trips", {
@@ -92,13 +96,12 @@ const postTrip = () => {
   }).then(response => {
     fetchAll()
     renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
+    clearInputs()
     console.log(response)
   }).catch(error => {
     console.log(error)
   })
 };
-
-// {id: <number>, userID: <number>, destinationID: <number>, travelers: <number>, date: <string 'YYYY/MM/DD'>, duration: <number>, status: <string 'approved' or 'pending'>, suggestedActivities: <array of strings>}
 
 function calculateSelectedTrip(event, id) {
   let currentSelectedDestination = trips.getDestinationByDestinationId(id);
@@ -109,8 +112,8 @@ function calculateSelectedTrip(event, id) {
     currentSelectedDestination.estimatedLodgingCostPerDay *
     nightSelection.value;
   let agentFee = (flightCost + lodgingCost) * 0.1;
-  priceEstimate.innerText = ` Est Price: $${
-    flightCost + lodgingCost + agentFee
+  priceEstimate.innerText = ` Est Price: $${Number(
+    flightCost + lodgingCost + agentFee).toFixed(2)
   }`;
 }
 
@@ -119,7 +122,7 @@ function renderPage(status, container, height, width, style) {
   container.innerHTML = ''
   date.innerText = displayedCurrentDate;
   welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
-  spentPerYear.innerText = `Total Spent This Year: $${trips.calculateTripsThisYear(
+  spentPerYear.innerText = `This Years Total $${trips.calculateTripsThisYear(
     traveler.id,
     currentDate
   )}`;
@@ -163,6 +166,10 @@ function initializeSlider() {
   });
   const swiper = new Swiper(".swiper", {
     centeredSlides: true,
+    scrollbar: {
+      el: '.swiper-scrollbar',
+      hide: true,
+    },
     effect: "cube",
     cubeEffect: {
       slideShadows: false,
@@ -188,4 +195,10 @@ function initializeSlider() {
     destID = swiper.activeIndex + 1;
     calculateSelectedTrip(event, destID);
   });
+}
+
+function clearInputs() {
+  calendarSelection.value = dayjs(currentDate).format('YYYY-MM-DD')
+  nightSelection.value = 0
+  travelerSelection.value = 0
 }
