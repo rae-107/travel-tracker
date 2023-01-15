@@ -137,7 +137,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 7px;
+  /* margin: 7px; */
+  margin: 0 0 20px 20px;
   background-color: #1d3244;
   box-shadow: 2px 2px 4px 0px #000000;
 }
