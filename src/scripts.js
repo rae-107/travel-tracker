@@ -13,7 +13,7 @@ import "swiper/css/bundle";
 let traveler;
 let travelers;
 let trips;
-let destID = 1
+let destID = 1;
 let currentDate = dayjs().format("YYYY/MM/DD");
 let displayedCurrentDate = dayjs().format("ddd, MMMM D, YYYY");
 
@@ -30,12 +30,13 @@ const travelerSelection = document.querySelector("#travelersSelection");
 const priceEstimate = document.querySelector("#priceEstimate");
 const bookTripButton = document.querySelector("#bookTripButton");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
+const errorBox = document.querySelector('#errorBox')
 
 // Fetch
 function fetchData(url, obj) {
   return fetch(url, obj).then((res) => {
-    if(!res.ok) {
-      throw new Error(`${res.status}: ${res.statusText}`)
+    if (!res.ok) {
+      throw new Error(`${res.status}: ${res.statusText}`);
     }
     return res.json();
   });
@@ -47,23 +48,42 @@ function fetchAll() {
     fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
-  ]).then((data) => {
-    traveler = new Traveler(data[0]);
-    travelers = new TravelerRepository(data[1].travelers); //GetTravelersByID???????
-    trips = new Trips(data[2].trips, data[3].destinations);
+  ])
+    .then((data) => {
+      traveler = new Traveler(data[0]);
+      travelers = new TravelerRepository(data[1].travelers); //GetTravelersByID???????
+      trips = new Trips(data[2].trips, data[3].destinations);
 
-    renderPage("approved", tripBox, 147, 220, "trips");
-    renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
-    initializeSlider();
-  }).catch(error => console.log(error))
+      renderPage("approved", tripBox, 147, 220, "trips");
+      renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
+      initializeSlider();
+    })
+    .catch((error) => console.log(error));
 }
 fetchAll();
 
 const postTrip = () => {
-  console.log(nightSelection.value, travelerSelection.value)
+  // console.log(nightSelection.value, travelerSelection.value)
   if (!nightSelection.value || !travelerSelection.value) {
-    return 
+    errorBox.classList.remove('hidden')
+    errorBox.innerText = `Please fill out all necessary fields`
+    return;
   }
+  if (
+    trips.getTripsById(traveler.id).find((trip) => {
+      return (
+        trip.duration === +nightSelection.value &&
+        trip.travelers === +travelerSelection.value &&
+        trip.date === dayjs(calendarSelection.value).format("YYYY/MM/DD") &&
+        trip.destinationID === destID
+      );
+    })
+  ) {
+    errorBox.classList.remove('hidden')
+    errorBox.innerText = `It looks like that trip is already booked`
+    return;
+  }
+  errorBox.classList.add('hidden')
   return fetchData("http://localhost:3001/api/v1/trips", {
     method: "POST",
     body: JSON.stringify({
@@ -71,7 +91,7 @@ const postTrip = () => {
       userID: traveler.id,
       destinationID: destID,
       travelers: +travelerSelection.value,
-      date: dayjs(calendarSelection.value).format('YYYY/MM/DD'),
+      date: dayjs(calendarSelection.value).format("YYYY/MM/DD"),
       duration: +nightSelection.value,
       status: "pending",
       suggestedActivities: [],
@@ -79,21 +99,25 @@ const postTrip = () => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(response => {
-    fetchAll()
-    renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
-    inputField.reset()
-    destID = 1
-    console.log(response)
-  }).catch(error => {
-    console.log(error)
   })
+    .then((response) => {
+      fetchAll();
+      renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
+      inputField.reset();
+      destID = 1;
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-console.log(calendarSelection.value)
-calendarSelection.setAttribute('min', dayjs(currentDate).format('YYYY-MM-DD'))
-calendarSelection.setAttribute('value', dayjs(currentDate).format('YYYY-MM-DD'))
-
+console.log(calendarSelection.value);
+calendarSelection.setAttribute("min", dayjs(currentDate).format("YYYY-MM-DD"));
+calendarSelection.setAttribute(
+  "value",
+  dayjs(currentDate).format("YYYY-MM-DD")
+);
 
 // Event Listeners
 bookTripButton.addEventListener("click", function (event) {
@@ -104,7 +128,6 @@ inputField.addEventListener("change", function (event) {
   event.preventDefault();
   calculateSelectedTrip(event, destID);
 });
-
 
 // Functions
 function calculateSelectedTrip(event, id) {
@@ -117,13 +140,12 @@ function calculateSelectedTrip(event, id) {
     nightSelection.value;
   let agentFee = (flightCost + lodgingCost) * 0.1;
   priceEstimate.innerText = ` Est Price: $${Number(
-    flightCost + lodgingCost + agentFee).toFixed(2)
-  }`;
+    flightCost + lodgingCost + agentFee
+  ).toFixed(2)}`;
 }
 
-
 function renderPage(status, container, height, width, style) {
-  container.innerHTML = ''
+  container.innerHTML = "";
   date.innerText = displayedCurrentDate;
   welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
   spentPerYear.innerText = `This Years Total $${trips.calculateTripsThisYear(
@@ -171,7 +193,7 @@ function initializeSlider() {
   const swiper = new Swiper(".swiper", {
     centeredSlides: true,
     scrollbar: {
-      el: '.swiper-scrollbar',
+      el: ".swiper-scrollbar",
       hide: true,
     },
     effect: "cube",
@@ -202,7 +224,7 @@ function initializeSlider() {
 }
 
 function clearInputs() {
-  calendarSelection.value = dayjs(currentDate).format('YYYY-MM-DD')
-  nightSelection.value = 0
-  travelerSelection.value = 0
+  calendarSelection.value = dayjs(currentDate).format("YYYY-MM-DD");
+  nightSelection.value = 0;
+  travelerSelection.value = 0;
 }
