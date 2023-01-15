@@ -103,6 +103,17 @@ button {
   margin: 0 15px 0 5px;
 }
 
+.error-box {
+  padding: 15px 50px;
+  border-radius: 30px;
+  box-shadow: 2px 2px 4px 0px #000000;
+  margin: 15px;
+  background-color: #1d3244;
+  width: 400px;
+  display: flex;
+  justify-content: center;
+}
+
 .swiper {
   width: 730px;
   height: 300px;
@@ -145,4 +156,12 @@ button {
 
 :root {
   --swiper-navigation-color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+
+.red {
+  color: red;
 }
