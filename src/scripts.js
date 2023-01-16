@@ -1,6 +1,5 @@
 // Imports
 import "./css/styles.css";
-import "./images/turing-logo.png";
 import Traveler from "./Traveler";
 import Trips from "./Trips";
 import * as dayjs from "dayjs";
