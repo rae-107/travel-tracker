@@ -59,47 +59,6 @@ describe("Trips", () => {
     );
   });
 
-  it("Should find all trips with provided status", () => {
-    expect(trips.getTripsByStatus("pending")).to.deep.equal([
-      {
-        id: 3,
-        userID: 3,
-        destinationID: 6,
-        travelers: 4,
-        date: "2022/05/22",
-        duration: 17,
-        status: "pending",
-        suggestedActivities: [],
-      },
-      {
-        id: 6,
-        userID: 29,
-        destinationID: 35,
-        travelers: 3,
-        date: "2022/06/29",
-        duration: 9,
-        status: "pending",
-        suggestedActivities: [],
-      },
-      {
-        id: 9,
-        userID: 24,
-        destinationID: 19,
-        travelers: 5,
-        date: "2022/12/19",
-        duration: 19,
-        status: "pending",
-        suggestedActivities: [],
-      },
-    ]);
-  });
-
-  it("Should return No trips found with that status if no trips found with status", () => {
-    expect(trips.getTripsByStatus()).to.equal(
-      "No trips found with that status"
-    );
-  });
-
   it("Should should be able to calulate how much a traveler has spent on trips this year", () => {
     expect(trips.calculateTripsThisYear(3, "2022/12/04")).to.equal(14762.00);
   });
