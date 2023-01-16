@@ -1,6 +1,10 @@
 <div align="center"
 
-<h1 align="center">Travel Tracker</h1>
+<div align="center">
+
+# Travel Tracker ✈
+
+</div>
 
   <p align="center">
     <a href="https://github.com/rae-107/travel-tracker"><strong>Explore the docs »</strong></a>
