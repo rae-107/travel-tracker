@@ -2,7 +2,6 @@
 import "./css/styles.css";
 import "./images/turing-logo.png";
 import Traveler from "./Traveler";
-import TravelerRepo from "./Traveler-Repository";
 import Trips from "./Trips";
 import * as dayjs from "dayjs";
 import Swiper from "swiper/bundle";
@@ -56,14 +55,12 @@ function fetchData(url, obj) {
 function fetchAll() {
   Promise.all([
     fetchData(`http://localhost:3001/api/v1/travelers/${travelerID}`),
-    fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
   ])
     .then((data) => {
       traveler = new Traveler(data[0]);
-      // travelers = new TravelerRepo(data[1].travelers); //GetTravelersByID???????
-      trips = new Trips(data[2].trips, data[3].destinations);
+      trips = new Trips(data[1].trips, data[2].destinations);
       renderPage("approved", tripBox, 147, 220, "trips");
       renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
       initializeSlider();
