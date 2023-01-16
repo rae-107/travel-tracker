@@ -34,7 +34,6 @@ const swiperWrapper = document.querySelector(".swiper-wrapper");
 const bookTripButton = document.querySelector("#bookTripButton");
 const tripBox = document.querySelector("#trips");
 
-
 calendarSelection.setAttribute("min", calendarValue);
 calendarSelection.setAttribute(
   "value",
@@ -81,15 +80,12 @@ const postTrip = () => {
     errorBox.innerText = `Please fill out all necessary fields`;
     return;
   }
-  if (
-    trips.getTripsById(traveler.id).find((trip) => {
-      return (
+  if (trips.getTripsById(traveler.id).find(trip =>
         trip.duration === +nightSelection.value &&
         trip.travelers === +travelerSelection.value &&
         trip.date === dayjs(calendarSelection.value).format("YYYY/MM/DD") &&
         trip.destinationID === destID
-      );
-    })
+      )
   ) {
     errorBox.classList.remove("hidden");
     errorBox.innerText = `It looks like that trip is already booked`;
@@ -127,24 +123,6 @@ const postTrip = () => {
     });
 };
 
-
-// Event Listeners
-bookTripButton.addEventListener("click", function (event) {
-  postTrip();
-});
-
-inputField.addEventListener("change", function (event) {
-  event.preventDefault();
-  calculateSelectedTrip(event, destID);
-});
-
-loginButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  validateLogin(event);
-  fetchAll();
-});
-
-// Functions
 function calculateSelectedTrip(event, id) {
   let currentSelectedDestination = trips.getDestinationByDestinationId(id);
   let flightCost =
@@ -274,3 +252,16 @@ function displayDashboard() {
   nav.classList.remove("hidden");
   loginContainer.classList.add("hidden");
 }
+
+bookTripButton.addEventListener("click", postTrip);
+
+inputField.addEventListener("change", event => {
+  event.preventDefault();
+  calculateSelectedTrip(event, destID);
+});
+
+loginButton.addEventListener("click", event => {
+  event.preventDefault();
+  validateLogin(event);
+  fetchAll();
+});
