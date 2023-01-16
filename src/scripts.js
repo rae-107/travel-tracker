@@ -141,10 +141,10 @@ function renderPage(status, container, height, width, style) {
   container.innerHTML = "";
   date.innerText = displayedCurrentDate;
   welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
-  spentPerYear.innerText = `This Years Total $${trips.calculateTripsThisYear(
+  spentPerYear.innerText = `This Years Total $${Number(trips.calculateTripsThisYear(
     traveler.id,
     currentDate
-  )}`;
+  )).toFixed(2)}`;
   container.innerHTML += trips
     .getTripsById(traveler.id)
     .reduce((string, userTrip) => {
