@@ -194,7 +194,7 @@ function initializeSlider() {
       slideShadows: false,
     },
     direction: "horizontal",
-    rewind: true,
+    rewind: false,
     keyboard: {
       enabled: true,
       onlyInViewport: false,
