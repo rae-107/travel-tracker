@@ -1,12 +1,4 @@
 /* Global Styles */
-
-/* Color Scheme */
-/* #fefefe */
-/* #91abb7 */
-/* #1c3247 */
-/* #0f5A72 */
-/* #1d3244 */
-
 * {
   font-family: "Spectral", serif;
   color: #fefefe;
@@ -68,7 +60,7 @@ nav {
 h1 {
   font-size: 35px;
   margin: 10px 0;
-  text-shadow: 2px 2px 3px #000000;
+  text-shadow: 2px 2px 3px #000;
 }
 
 .date {
@@ -89,11 +81,10 @@ h1 {
   align-items: center;
   margin: 3px;
   background-color: #1d3244;
-  box-shadow: 2px 2px 4px 0px #000000;
+  box-shadow: 2px 2px 4px 0px #000;
 }
 
 /* Main */
-
 main {
   height: 100vh;
   width: 75%;
@@ -112,7 +103,7 @@ main {
 .login-button {
   padding: 15px 50px;
   border-radius: 30px;
-  box-shadow: 2px 2px 4px 0px #000000;
+  box-shadow: 2px 2px 4px 0px #000;
   margin: 15px;
   display: flex;
   flex-direction: row;
@@ -132,7 +123,7 @@ main {
 .error-box {
   padding: 15px 50px;
   border-radius: 30px;
-  box-shadow: 2px 2px 4px 0px #000000;
+  box-shadow: 2px 2px 4px 0px #000;
   margin: 15px;
   background-color: #1d3244;
   width: 300px;
@@ -174,10 +165,9 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin: 7px; */
   margin: 0 0 20px 20px;
   background-color: #1d3244;
-  box-shadow: 2px 2px 4px 0px #000000;
+  box-shadow: 2px 2px 4px 0px #000;
 }
 
 :root {
