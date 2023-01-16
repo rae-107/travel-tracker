@@ -10,13 +10,18 @@ import "swiper/css/bundle";
 
 // Global Variables
 let traveler;
-let travelers;
+let travelerID;
 let trips;
 let destID = 1;
 let currentDate = dayjs().format("YYYY/MM/DD");
 let displayedCurrentDate = dayjs().format("ddd, MMMM D, YYYY");
 
 // JQuerys
+const username = document.querySelector('#username')
+const password = document.querySelector('#password')
+const loginButton = document.querySelector('#loginButton')
+const loginErrorMessage = document.querySelector('#loginErrorMessage')
+const loginContainer = document.querySelector('#loginContainer')
 const spentPerYear = document.querySelector("#spentPerYear");
 const tripBox = document.querySelector("#trips");
 const pendingTripBox = document.querySelector("#pendingTrips");
@@ -31,6 +36,9 @@ const bookTripButton = document.querySelector("#bookTripButton");
 const swiperWrapper = document.querySelector(".swiper-wrapper");
 const labels = document.querySelectorAll('label')
 const errorBox = document.querySelector('#errorBox')
+const main = document.querySelector('main')
+const nav = document.querySelector('nav')
+
 
 // Fetch
 function fetchData(url, obj) {
@@ -47,14 +55,14 @@ function fetchData(url, obj) {
 
 function fetchAll() {
   Promise.all([
-    fetchData("http://localhost:3001/api/v1/travelers/2"),
+    fetchData(`http://localhost:3001/api/v1/travelers/${travelerID}`),
     fetchData("http://localhost:3001/api/v1/travelers"),
     fetchData("http://localhost:3001/api/v1/trips"),
     fetchData("http://localhost:3001/api/v1/destinations"),
   ])
     .then((data) => {
       traveler = new Traveler(data[0]);
-      travelers = new TravelerRepo(data[1].travelers); //GetTravelersByID???????
+      // travelers = new TravelerRepo(data[1].travelers); //GetTravelersByID???????
       trips = new Trips(data[2].trips, data[3].destinations);
       renderPage("approved", tripBox, 147, 220, "trips");
       renderPage("pending", pendingTripBox, 80, 150, "pending-trips");
@@ -63,9 +71,10 @@ function fetchAll() {
     .catch((error) => {
       errorBox.classList.remove('hidden')
       errorBox.innerText = `${error}`
+      setTimeout(addHidden, 3000)
     });
 }
-fetchAll();
+
 
 const postTrip = () => {
   if (!nightSelection.value || !travelerSelection.value) {
@@ -134,6 +143,12 @@ inputField.addEventListener("change", function (event) {
   event.preventDefault();
   calculateSelectedTrip(event, destID);
 });
+
+loginButton.addEventListener('click', function (event) {
+  event.preventDefault();
+  validateLogin(event)
+  fetchAll();
+})
 
 // Functions
 function calculateSelectedTrip(event, id) {
@@ -231,4 +246,24 @@ function initializeSlider() {
 
 function addHidden() {
   errorBox.classList.add('hidden')
+}
+
+function validateLogin() {
+  if (username.value.length === 10 && username.value.slice(0, 8) === 'traveler' && password.value === 'travel' && username.value.slice(-2) > 50) {
+    loginErrorMessage.innerText = `User Doesn't Exist`
+  } else if (username.value.length === 10 && username.value.slice(0, 8) === 'traveler' && password.value === 'travel') {
+    travelerID = username.value[8] + username.value[9]
+    displayDashboard()
+  } else if(username.value.length === 9 && username.value.slice(0, 8) === 'traveler' && password.value === 'travel') {
+    travelerID = username.value[8]
+    displayDashboard()
+  } else {
+    loginErrorMessage.innerText = `Incorrect Username Or Password`
+  }
+}
+
+function displayDashboard() {
+main.classList.remove('hidden')
+nav.classList.remove('hidden')
+loginContainer.classList.add('hidden')
 }
