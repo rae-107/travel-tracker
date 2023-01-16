@@ -101,6 +101,6 @@ describe("Trips", () => {
   });
 
   it("Should should be able to calulate how much a traveler has spent on trips this year", () => {
-    expect(trips.calculateTripsThisYear(3, "2022/12/04")).to.equal(14762);
+    expect(trips.calculateTripsThisYear(3, "2022/12/04")).to.equal(14762.00);
   });
 });
