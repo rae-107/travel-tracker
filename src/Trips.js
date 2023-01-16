@@ -38,7 +38,7 @@ class Trips {
         return total;
       }, 0);
     const tenPercent = tripsByYear * 0.1;
-    return Number(tripsByYear + tenPercent).toFixed(2);
+    return +Number(tripsByYear + tenPercent).toFixed(2);
   }
 }
 
