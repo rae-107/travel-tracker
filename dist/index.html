@@ -14,29 +14,23 @@
     <div class="login-container" id="loginContainer">
       <form class="login" id="login">
         <h2 class="login-title">Login</h2>
-        <div id="loginErrorMessage"></div><!-- This is for error messages  -->
+        <div id="loginErrorMessage"></div>
         <div class="login-input-field">
           <label class="login-inputs"  for="username">Username: </label>
           <input type="text" class="login-inputs" id="username" autofocus placeholder="Username">
-          <div class="username-error-message hidden">Wrong Username</div><!-- This is for error messages  -->
         </div>
         <div class="login-input-field">
           <label class="login-inputs"  for="password">Password: </label>
           <input type="password" class="login-inputs" id="password" autofocus placeholder="Password">
-          <div class="username-error-message hidden">Wrong Password</div><!-- This is for error messages  -->
         </div>
         <button class="login-button" id="loginButton" type="submit">Login!</button>
       </form>
     </div>
     <nav class="hidden">
-      <h1 class="welcome-text" id="welcome-text"></h1>
+      <h1 id="welcome-text"></h1>
       <h2 class="date" id="date"></h4>
-      <div class="spent-per-year">
-        <p id="spentPerYear"></p>
-      </div>
-      <div >
-        <h3>Pending Trips</h3>
-      </div>
+      <p id="spentPerYear"></p>
+      <h3>Pending Trips</h3>
       <div class="pending-trips-container" id="pendingTrips"></div>
     </nav>
     <main class="hidden">
@@ -46,19 +40,16 @@
             <label for="calendarSelection">Departure Date<span class="orange">*</span></label>
             <input type="date" class="inputs" id="calendarSelection" />
             <label for="durationSelection">Number Of Nights<span class="orange">*</span></label>
-            <input type="number" class="inputs" id="durationSelection" placeholder="0" min="0" max="365" />
+            <input type="number" class="inputs" id="durationSelection" placeholder="0" min="0" max="31" />
             <label for="travelersSelection">Number Of Travelers<span class="orange">*</span></label>
-            <input type="number" class="inputs" id="travelersSelection" placeholder="0" min="0" max="853" />
+            <input type="number" class="inputs" id="travelersSelection" placeholder="0" min="0" max="8"/>
             <div class="price-estimate" id="priceEstimate"> Est Price: $0.00</div>
           </section>
-
           <section class="error-box hidden" id="errorBox">
           </section>
-          
           <div class="swiper">
             <div class="swiper-wrapper">
             </div>
-            <!-- <div class="swiper-pagination"></div> -->
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
             <div class="swiper-scrollbar"></div>
@@ -66,12 +57,10 @@
           <button class="book-trip-button" type="button" id="bookTripButton">
             Book Trip!
           </button>
-
         </form>
       </div>
       <div class="trips-container" id="trips"></div>
     </main>
-    <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
     <script src="bundle.js"></script>
   </body>
 </html>

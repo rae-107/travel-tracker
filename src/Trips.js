@@ -15,15 +15,6 @@ class Trips {
     return !destination ? "Can't find a destination by that id" : destination;
   }
 
-  getTripsByStatus(status) {
-    const tripsByStatus = this.tripsData.filter(
-      (trip) => trip.status === status
-    );
-    return tripsByStatus.length === 0
-      ? "No trips found with that status"
-      : tripsByStatus;
-  }
-
   calculateTripsThisYear(userID, date) {
     const tripsByYear = this.getTripsById(userID)
       .filter((trip) => trip.date.slice(0, 4) === date.slice(0, 4))
@@ -38,7 +29,7 @@ class Trips {
         return total;
       }, 0);
     const tenPercent = tripsByYear * 0.1;
-    return Number(tripsByYear + tenPercent).toFixed(2);
+    return +Number(tripsByYear + tenPercent).toFixed(2);
   }
 }
 
