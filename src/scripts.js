@@ -77,6 +77,22 @@ const postTrip = () => {
     errorBox.innerText = `Please fill out all necessary fields`;
     return;
   }
+  if(nightSelection.value < 0 || nightSelection.value > 31) {
+    errorBox.classList.remove("hidden");
+    errorBox.innerText = `Please enter a number of nights that is 31 or under`;
+    return;
+  }
+  if(travelerSelection.value < 0 || travelerSelection.value > 8) {
+    errorBox.classList.remove("hidden");
+    errorBox.innerText = `Please enter a number of travelers that is 8 or under`;
+    return;
+  }
+  console.log(dayjs(calendarValue).diff(dayjs(calendarSelection.value)))
+  if(dayjs(calendarValue).diff(dayjs(calendarSelection.value)) > 0) {
+    errorBox.classList.remove("hidden");
+    errorBox.innerText = `Please enter a valid date selection`;
+    return;
+  }
   if (
     trips
       .getTripsById(traveler.id)
@@ -218,18 +234,18 @@ function initializeSlider() {
 
 function validateLogin() {
   if (
-      username.value.length === 10 &&
+    (username.value.length === 10 &&
       username.value.slice(0, 8) === "traveler" &&
       password.value === "travel" &&
-      Number(username.value.slice(-2)) > 50 ||
-      username.value.length === 10 &&
+      Number(username.value.slice(-2)) > 50) ||
+    (username.value.length === 10 &&
       username.value.slice(0, 8) === "traveler" &&
       password.value === "travel" &&
-      !/\d/.test(username.value.slice(-2)[0]) ||
-      username.value.length === 10 &&
+      !/\d/.test(username.value.slice(-2)[0])) ||
+    (username.value.length === 10 &&
       username.value.slice(0, 8) === "traveler" &&
       password.value === "travel" &&
-      !/\d/.test(username.value.slice(-2)[1])
+      !/\d/.test(username.value.slice(-2)[1]))
   ) {
     loginErrorMessage.innerText = `User Doesn't Exist`;
   } else if (
@@ -243,8 +259,9 @@ function validateLogin() {
     username.value.length === 9 &&
     username.value.slice(0, 8) === "traveler" &&
     password.value === "travel" &&
-    !/\d/.test(username.value.slice(-1))) {
-      loginErrorMessage.innerText = `User Doesn't Exist`;
+    !/\d/.test(username.value.slice(-1))
+  ) {
+    loginErrorMessage.innerText = `User Doesn't Exist`;
   } else if (
     username.value.length === 9 &&
     username.value.slice(0, 8) === "traveler" &&
