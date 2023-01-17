@@ -10,7 +10,7 @@ let travelerID;
 let trips;
 let destID = 1;
 let currentDate = dayjs().format("YYYY/MM/DD");
-let calendarValue = dayjs(currentDate).format("YYYY-MM-DD")
+let calendarValue = dayjs(currentDate).format("YYYY-MM-DD");
 let displayedCurrentDate = dayjs().format("ddd, MMMM D, YYYY");
 
 const username = document.querySelector("#username");
@@ -35,10 +35,7 @@ const bookTripButton = document.querySelector("#bookTripButton");
 const tripBox = document.querySelector("#trips");
 
 calendarSelection.setAttribute("min", calendarValue);
-calendarSelection.setAttribute(
-  "value",
-  calendarValue
-);
+calendarSelection.setAttribute("value", calendarValue);
 
 function fetchData(url, obj) {
   return fetch(url, obj).then((res) => {
@@ -80,11 +77,15 @@ const postTrip = () => {
     errorBox.innerText = `Please fill out all necessary fields`;
     return;
   }
-  if (trips.getTripsById(traveler.id).find(trip =>
-        trip.duration === +nightSelection.value &&
-        trip.travelers === +travelerSelection.value &&
-        trip.date === dayjs(calendarSelection.value).format("YYYY/MM/DD") &&
-        trip.destinationID === destID
+  if (
+    trips
+      .getTripsById(traveler.id)
+      .find(
+        (trip) =>
+          trip.duration === +nightSelection.value &&
+          trip.travelers === +travelerSelection.value &&
+          trip.date === dayjs(calendarSelection.value).format("YYYY/MM/DD") &&
+          trip.destinationID === destID
       )
   ) {
     errorBox.classList.remove("hidden");
@@ -141,10 +142,9 @@ function renderPage(status, container, height, width, style) {
   container.innerHTML = "";
   date.innerText = displayedCurrentDate;
   welcomeText.innerText = `Welcome, ${traveler.getFirstName()}!`;
-  spentPerYear.innerText = `This Years Total $${Number(trips.calculateTripsThisYear(
-    traveler.id,
-    currentDate
-  )).toFixed(2)}`;
+  spentPerYear.innerText = `This Years Total $${Number(
+    trips.calculateTripsThisYear(traveler.id, currentDate)
+  ).toFixed(2)}`;
   container.innerHTML += trips
     .getTripsById(traveler.id)
     .reduce((string, userTrip) => {
@@ -218,10 +218,18 @@ function initializeSlider() {
 
 function validateLogin() {
   if (
-    username.value.length === 10 &&
-    username.value.slice(0, 8) === "traveler" &&
-    password.value === "travel" &&
-    username.value.slice(-2) > 50
+      username.value.length === 10 &&
+      username.value.slice(0, 8) === "traveler" &&
+      password.value === "travel" &&
+      Number(username.value.slice(-2)) > 50 ||
+      username.value.length === 10 &&
+      username.value.slice(0, 8) === "traveler" &&
+      password.value === "travel" &&
+      !/\d/.test(username.value.slice(-2)[0]) ||
+      username.value.length === 10 &&
+      username.value.slice(0, 8) === "traveler" &&
+      password.value === "travel" &&
+      !/\d/.test(username.value.slice(-2)[1])
   ) {
     loginErrorMessage.innerText = `User Doesn't Exist`;
   } else if (
@@ -231,6 +239,12 @@ function validateLogin() {
   ) {
     travelerID = username.value[8] + username.value[9];
     displayDashboard();
+  } else if (
+    username.value.length === 9 &&
+    username.value.slice(0, 8) === "traveler" &&
+    password.value === "travel" &&
+    !/\d/.test(username.value.slice(-1))) {
+      loginErrorMessage.innerText = `User Doesn't Exist`;
   } else if (
     username.value.length === 9 &&
     username.value.slice(0, 8) === "traveler" &&
@@ -255,12 +269,12 @@ function displayDashboard() {
 
 bookTripButton.addEventListener("click", postTrip);
 
-inputField.addEventListener("change", event => {
+inputField.addEventListener("change", (event) => {
   event.preventDefault();
   calculateSelectedTrip(event, destID);
 });
 
-loginButton.addEventListener("click", event => {
+loginButton.addEventListener("click", (event) => {
   event.preventDefault();
   validateLogin(event);
   fetchAll();
