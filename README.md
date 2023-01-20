@@ -80,9 +80,7 @@ Travel tracking app that fetches data from a local server to find all of users p
 ## Preview of App:
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
 
-
-https://user-images.githubusercontent.com/113261334/212737946-9e4271db-1ac9-491e-a273-40c1fde06251.mp4
-
+https://user-images.githubusercontent.com/113261334/213791524-fddab2f6-62b6-4d92-95fd-daa5ae81723d.mp4
 
 ---
 
