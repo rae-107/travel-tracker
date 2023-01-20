@@ -32,7 +32,7 @@
 
 ## Abstract:
 [//]: <> (Briefly describe what you built and its features. What problem is the app solving? How does this application solve that problem?)
-Travel tracking app that fetches data from a local server find all of users past, upcoming and pending trips. Allows user to input a date, duration, number of travelers and select a destination and calculates the price before booking. Allows user to book trips new trips and POSTs new trip to local server. App keeps track of how much money each user has spent for the current year. 
+Travel tracking app that fetches data from a local server to find all of users past, upcoming and pending trips. Allows user to input a date, duration, number of travelers and select a destination, then calculates the price before booking. Allows user to book new trips and POSTs new trip to local server. App keeps track of how much money each user has spent for the current year. 
 
 </div>
 
