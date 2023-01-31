@@ -80,6 +80,9 @@ Travel tracking app that fetches data from a local server to find all of users p
 ## Preview of App:
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
 
+Deployed link is [here](https://rae-107.github.io/travel-tracker/)
+*Note* - You will still have to clone the API down and run it on your local machine to fully test out application.
+
 https://user-images.githubusercontent.com/113261334/213791524-fddab2f6-62b6-4d92-95fd-daa5ae81723d.mp4
 
 ---
